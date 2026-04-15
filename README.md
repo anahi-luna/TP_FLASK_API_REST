@@ -15,7 +15,7 @@ Este proyecto consiste en una API REST desarrollada con Flask, utilizando:
 
 ```bash
 git clone https://github.com/anahi-luna/TP_FLASK_API_REST.git
-cd tp-integral
+cd TP_FLASK_API_REST
 ```
 
 ---
