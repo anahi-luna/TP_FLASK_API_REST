@@ -1,0 +1,15 @@
+# Entorno virtual dentro de backend
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Variables de entorno
+.env
+
+# Otros
+.DS_Store
+
+#sql
+*.sqlite

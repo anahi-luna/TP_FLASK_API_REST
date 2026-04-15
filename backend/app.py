@@ -21,9 +21,12 @@ ma.init_app(app)
 app.register_blueprint(contact_bp)
 app.register_blueprint(locality_bp)
 
+@app.route('/')
+def hello():
+    return f"Holaaa"
 
 #Corremos el servidor
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host="0.0.0.0",port=5000)
