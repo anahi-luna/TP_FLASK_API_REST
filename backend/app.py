@@ -1,26 +1,30 @@
 from flask import Flask
-from extensions import db,ma
-from routes.contact_route import contact_bp
-from routes.locality_route import locality_bp
+from extensions import db,ma  # SQLAlchemy / Marshmallow inicializados en otro archivo
+from routes.contact_route import contact_bp # Blueprint de contactos (grupo de rutas)
+from routes.locality_route import locality_bp # Blueprint de localidades
 import os
 
-#Inicializar app
+#Inicializar app 
 app = Flask(__name__)
 
-#Directorio base
+#Obtener la ruta base del proyecto (carpeta backend)
 basedir = os.path.abspath(os.path.dirname(__file__)) 
 
-#Configuracion de la base de datos
+#Configuracion de la base de datos SQLite
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+ os.path.join(basedir,'db.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #Asi evita q se queja la consola
 
-
+# INICIALIZAR EXTENSIONES
+# Vincula SQLAlchemy y Marshmallow con la app
 db.init_app(app)
 ma.init_app(app)
 
-app.register_blueprint(contact_bp)
+# REGISTRAR BLUEPRINTS
+# Agrega las rutas de cada módulo (contactos y localidades)
+app.register_blueprint(contact_bp) 
 app.register_blueprint(locality_bp)
 
+#Ruta de prueba
 @app.route('/')
 def hello():
     return f"Holaaa"
@@ -28,5 +32,6 @@ def hello():
 #Corremos el servidor
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
+        db.create_all()# Crea la base de datos y tablas
     app.run(debug=True, host="0.0.0.0",port=5000)
+    # host="0.0.0.0" permite acceso desde otros dispositivos/red (Docker/red local)

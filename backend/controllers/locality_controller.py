@@ -1,7 +1,8 @@
 from flask import request, jsonify
-from services.locality_service import *
-from schemas.locality_schema import locality_schema, localities_schema
+from services.locality_service import * #trae las funciones de service locality
+from schemas.locality_schema import locality_schema, localities_schema #Esquemas para convertir JSON
 
+#Agregar localidad
 def add_locality():
     locality = create_locality(request.json)
     result= locality_schema.dump(locality)
@@ -12,6 +13,7 @@ def add_locality():
         "message":""
     }
 
+#Obtener localidad por ID
 def get_locality(id):
     locality =get_locality_by_id(id)
     if not locality:
@@ -29,6 +31,7 @@ def get_locality(id):
         "message":""
     }
 
+#Trae todos los localidades
 def get_localities():
     localities = get_all_localities()
     if not localities:
@@ -47,6 +50,7 @@ def get_localities():
         "message":""
     }
 
+#Actualizar localidad
 def update_locality_controller(id):
     locality = get_locality_by_id(id)
     if not locality:
@@ -65,6 +69,7 @@ def update_locality_controller(id):
         "message":""
     }
 
+#Eliminar un localidad
 def delete_locality_controller(id):
     locality = get_locality_by_id(id)
     if not locality:
