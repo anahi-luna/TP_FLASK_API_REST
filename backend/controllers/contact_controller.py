@@ -1,17 +1,35 @@
 from flask import request, jsonify
 from services.contact_service import * #me trae todas las funciones de service_contact
 from schemas.contact_schema import contact_schema,contacts_schema #Esquemas para convertir JSON
+from marshmallow import ValidationError
+from exceptions import BusinessError
 
 #Agregar un contacto 
 def add_contact():
-    contact = create_contact(request.json) #recibe la peticion
-    result = contact_schema.dump(contact) #retorno en formato json
-    return {  
-        "ok":True,
-        "data":[result], # Devuelve en lista
-        "count":1,
-        "message":""
-    }
+    try:
+        data = contact_schema.load(request.json)
+        contact = create_contact(data) #recibe la peticion
+        result = contact_schema.dump(contact) #retorno en formato json
+        return {  
+            "ok":True,
+            "data":[result], # Devuelve en lista
+            "count":1,
+            "message":""
+        },201
+    except ValidationError as err:
+        return {
+            "ok": False,
+            "data": [],
+            "count": 0,
+            "message": err.messages
+        }, 400
+    except BusinessError as e:
+        return {
+            "ok": False,
+            "data": [],
+            "count": 0,
+            "message": e.message
+        }, e.status_code
 
 #Obtener contacto por ID
 def get_contact(id):
@@ -45,10 +63,10 @@ def get_contacts():
     result = contacts_schema.dump(contacts) # Lista de objetos → JSON
     return {
         "ok":True,
-        "data":[result],
+        "data":result,
         "count":count,
         "message":""
-    }
+    },200
 
 #Actualizar contacto
 def update_contact_controller(id):
@@ -60,15 +78,31 @@ def update_contact_controller(id):
             "count":0,
             "message":"Contacto no encontrado"
         },404
-    
-    updated = update_contact(contact, request.json) # request.json = datos nuevos que vienen del cliente
-    result = contact_schema.dump(updated)
-    return {
-        "ok":True,
-        "data":[result],
-        "count":1,
-        "message":""
-    }
+    try:
+        data = contact_schema.load( request.json, partial=True)
+        updated = update_contact(contact,data) # request.json = datos nuevos que vienen del cliente
+        result = contact_schema.dump(updated)
+        return {
+            "ok":True,
+            "data":[result],
+            "count":1,
+            "message":""
+        }
+    except ValidationError as err:
+        return {
+            "ok": False,
+            "data": [],
+            "count": 0,
+            "message": err.messages
+        }, 400
+
+    except BusinessError as e:
+        return {
+            "ok": False,
+            "data": [],
+            "count": 0,
+            "message": e.message
+        }, e.status_code
 
 #Eliminar un contacto
 def delete_contact_controller(id):

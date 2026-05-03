@@ -4,8 +4,8 @@ class Locality(db.Model):
     __tablename__ = "localities" #nombre de la tabla
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    province = db.Column(db.String(200))
+    name = db.Column(db.String(200),nullable=False)
+    province = db.Column(db.String(200),nullable=False)
 
 # Relacion con contacto
     contacts = db.relationship(

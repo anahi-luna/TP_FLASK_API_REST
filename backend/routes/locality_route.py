@@ -5,7 +5,7 @@ from controllers.locality_controller import *
 locality_bp = Blueprint('locality_bp', __name__)
 
 #POST Crear localidad
-locality_bp.route('/locality', methods = ['POST'])(add_locality)
+locality_bp.route('/locality/', methods = ['POST'])(add_locality)
 #GET Obtener lista
 locality_bp.route('/locality', methods = ['GET'])(get_localities)
 #GET Obtener por id

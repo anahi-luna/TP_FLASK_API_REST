@@ -1,10 +1,24 @@
 from models.contact_model import Contact
 from extensions import db
+from services.utils import normalize_data
+from models.locality_model import Locality
+from sqlalchemy.exc import IntegrityError
+from exceptions import BusinessError
 
 def create_contact(data):
-    contact = Contact(**data) #desempaca el diccionario
+    locality = Locality.query.get(data["locality_id"])
+    if not locality:
+        raise BusinessError("La localidad no existe", 404)
+    
+
+    resp = normalize_data(data)
+    contact = Contact(**resp) #desempaca el diccionario
     db.session.add(contact)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        raise BusinessError("El email ya está registrado", 409)
     return contact
 
 #Buscar por id
@@ -17,9 +31,23 @@ def get_all_contacts():
 
 #actualizar contacto
 def update_contact(contact, data):
-    for key, value in data.items():
+    # validar si cambia locality
+    if "locality_id" in data:
+        locality = Locality.query.get(data["locality_id"])
+        if not locality:
+            raise BusinessError("La localidad no existe", 404)
+
+    resp = normalize_data(data)
+
+    for key, value in resp.items():
         setattr(contact, key,value)
-    db.session.commit()
+
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        raise BusinessError("El email ya está registrado", 409)   
+     
     return contact
 
 #eliminar contacto
