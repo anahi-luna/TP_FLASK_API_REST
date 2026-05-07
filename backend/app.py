@@ -28,7 +28,7 @@ db.init_app(app)
 ma.init_app(app)
 
 # REGISTRAR BLUEPRINTS
-# Agrega las rutas de cada módulo (contactos y localidades)
+# Agrega las rutas de cada módulo (contactos, localidades y stats)
 app.register_blueprint(contact_bp, url_prefix ="/api/contactos" ) 
 app.register_blueprint(locality_bp, url_prefix ="/api/localidades" )
 app.register_blueprint(stats_bp, url_prefix="/api")

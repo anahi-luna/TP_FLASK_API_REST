@@ -29,16 +29,17 @@ def get_contact_by_id(id):
 def get_all_contacts(nombre=None, apellido=None, id_localidad=None):
     query = Contact.query
 
+    #Filtra por nombre
     if nombre:
         query = query.filter( Contact.name.ilike(f"%{nombre}%"))
-    
+    #Filtra por apellido
     if apellido:
         query = query.filter( Contact.last_name.ilike(f"%{apellido}%"))
-
+    #Filtra por localidad
     if id_localidad:
         query = query.filter(Contact.locality_id == id_localidad)
 
-    return query.all()
+    return query.all() ##Retorna los contactos filtrados
 
 #actualizar contacto
 def update_contact(contact, data):

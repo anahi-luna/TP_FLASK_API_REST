@@ -51,17 +51,18 @@ def get_contact(id):
 
 #Trae todos los contactos
 def get_contacts():
-    nombre = request.args.get("nombre")
+    #Obtiene los filtros enviados por query params
+    nombre = request.args.get("nombre") # "request.args.get()"Lee parametros de la URL
     apellido = request.args.get("apellido")
     id_localidad = request.args.get("id_localidad")
 
+    #Obtiene los contactos aplicando filtros
     contacts = get_all_contacts(
         nombre = nombre,
         apellido = apellido,
         id_localidad = id_localidad  
     )  
 
-    # Trae todos desde la DB
     if not contacts:
         return{
             "ok":False,

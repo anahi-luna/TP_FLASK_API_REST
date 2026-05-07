@@ -4,8 +4,9 @@ from models.contact_model import Contact #Trae el modelo contact
 from schemas.locality_schema import LocalitySchema # Schema de Locality para la relacion
 
 class ContactSchema(ma.SQLAlchemyAutoSchema):
+    #Se modifica los nombres de los campos para la compatibildad con el frontend
     nombre= fields.String(
-        attribute="name",
+        attribute="name", #Hace referencia al atributo del modelo contact 
         required=True,
         validate=validate.Regexp(
             r'^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$',
@@ -49,14 +50,16 @@ class ContactSchema(ma.SQLAlchemyAutoSchema):
     localidad = ma.Nested(
          LocalitySchema,
          attribute="locality",
-    ) # Relación anidada (Nested)
+    ) 
+    # Relación anidada (Nested)
     # Incluye los datos de la localidad dentro del contacto
     # Ej: un contacto devuelve también su localidad asociada
 
     class Meta:
         model = Contact # Usa el modelo Contact como base
         load_instance = False # Permite convertir JSON → objeto
-        exclude = ("name", "last_name", "phone", "address", "locality_id", "locality")
+        exclude = ("name", "last_name", "phone", "address", "locality_id", "locality") 
+        #Excluye los campos generados automaticamente por SQLAlchemyAutoSchema 
 
 # INSTANCIAS DEL SCHEMA
 contact_schema = ContactSchema()  # Para un solo contacto
