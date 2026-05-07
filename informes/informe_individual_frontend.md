@@ -1,6 +1,6 @@
 # Informe Individual — Integrante Frontend
 
-**Nombre**: Damian Gustavo Libertini 
+**Nombre**: Libertini Gustavo Damián 
 **Rol**: Frontend (React & Tailwind CSS)
 
 ---
