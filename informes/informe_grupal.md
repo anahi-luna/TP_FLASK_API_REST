@@ -97,7 +97,7 @@ http://localhost:5173/
 ## Backend API
 
 ```bash
-http://localhost:5000/api
+http://localhost:5000/
 ```
 
 ---
