@@ -6,10 +6,12 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Copia TODO el contenido de la carpeta backend al contenedor
-COPY backend/ .
+COPY backend/requirements.txt .
 
 # Instala las dependencias del archivo requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY backend/ .
 
 # Expone el puerto 5000 (donde corre Flask)
 EXPOSE 5000

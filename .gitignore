@@ -1,5 +1,5 @@
-# Entorno virtual dentro de backend
-.venv/
+# Entorno virtual Python
+backend/.venv/
 
 # Python
 __pycache__/
@@ -8,8 +8,13 @@ __pycache__/
 # Variables de entorno
 .env
 
-# Otros
-.DS_Store
-
-#sql
+# SQLite
 *.sqlite
+*.db
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Sistema
+.DS_Store

@@ -1,20 +1,29 @@
-version: '3.9' # Versión de docker-compose
+version: '3.9'
 
 services:
-    api: # Nombre del servicio
-      build:
-        context: ..
-        # Carpeta base desde donde se construye la imagen (raíz del proyecto)
 
-        dockerfile: deploy/Dockerfile
-        # Ruta al Dockerfile que se va a usar
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.backend
 
-      container_name: contactos_api
+    container_name: contactos_api
 
+    ports:
+      - "5000:5000"
 
-      ports:
-        - "5000:5000"
-      volumes:
-        - ../backend:/app
-        # Vincula tu carpeta local con el contenedor
+    volumes:
+      - ../backend:/app
 
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.frontend
+
+    container_name: contactos_frontend
+
+    ports:
+      - "5173:80"
+
+    depends_on:
+      - api
