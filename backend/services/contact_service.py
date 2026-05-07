@@ -26,8 +26,19 @@ def get_contact_by_id(id):
     return Contact.query.get(id)
 
 #Traer todos los contactos
-def get_all_contacts():
-    return Contact.query.all()
+def get_all_contacts(nombre=None, apellido=None, id_localidad=None):
+    query = Contact.query
+
+    if nombre:
+        query = query.filter( Contact.name.ilike(f"%{nombre}%"))
+    
+    if apellido:
+        query = query.filter( Contact.last_name.ilike(f"%{apellido}%"))
+
+    if id_localidad:
+        query = query.filter(Contact.locality_id == id_localidad)
+
+    return query.all()
 
 #actualizar contacto
 def update_contact(contact, data):

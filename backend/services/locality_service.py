@@ -16,8 +16,16 @@ def get_locality_by_id(id):
     return Locality.query.get(id) # Busca en la DB por clave primaria
 
 #Trae toda la lista
-def get_all_localities():
-    return Locality.query.all() 
+def get_all_localities(nombre = None, provincia=None):
+    query = Locality.query
+
+    if nombre:
+        query = query.filter(Locality.name.ilike(f"%{nombre}%"))
+    
+    if provincia:
+        query = query.filter(Locality.province.ilike(f"%{provincia}%"))
+
+    return query.all() 
 
 #Actualiza localidad
 def update_locality(locality,data):

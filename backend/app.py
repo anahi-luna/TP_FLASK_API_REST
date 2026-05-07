@@ -2,7 +2,7 @@ from flask import Flask
 from extensions import db,ma  # SQLAlchemy / Marshmallow inicializados en otro archivo
 from routes.contact_route import contact_bp # Blueprint de contactos (grupo de rutas)
 from routes.locality_route import locality_bp # Blueprint de localidades
-
+from routes.stats_route import stats_bp
 import os
 
 #Inicializar app 
@@ -29,8 +29,9 @@ ma.init_app(app)
 
 # REGISTRAR BLUEPRINTS
 # Agrega las rutas de cada módulo (contactos y localidades)
-app.register_blueprint(contact_bp) 
-app.register_blueprint(locality_bp)
+app.register_blueprint(contact_bp, url_prefix ="/api/contactos" ) 
+app.register_blueprint(locality_bp, url_prefix ="/api/localidades" )
+app.register_blueprint(stats_bp, url_prefix="/api")
 
 #Ruta de prueba
 @app.route('/')

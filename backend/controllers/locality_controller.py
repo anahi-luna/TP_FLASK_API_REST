@@ -44,13 +44,20 @@ def get_locality(id):
 
 #Trae todos los localidades
 def get_localities():
-    localities = get_all_localities()
+    nombre = request.args.get("nombre")
+    provincia = request.args.get("provincia")
+
+    localities = get_all_localities(
+        nombre = nombre,
+        provincia = provincia
+    )
+
     if not localities:
         return{
             "ok":False,
             "data":[],
             "count":0,
-            "message":"No hay localidades cargadas"
+            "message":"No se encontraron resultados"
         },404
     count = len(localities)
     result= localities_schema.dump(localities)

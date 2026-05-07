@@ -3,7 +3,8 @@ from extensions import ma
 from models.locality_model import Locality
 
 class LocalitySchema(ma.SQLAlchemyAutoSchema):
-    name = fields.String(
+    nombre = fields.String(
+        attribute="name",
         required=True,
         validate=validate.Regexp(
             r'^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$',
@@ -14,7 +15,8 @@ class LocalitySchema(ma.SQLAlchemyAutoSchema):
         }
     )
 
-    province = fields.String(
+    provincia = fields.String(
+        attribute="province",
         required=True,
         validate=validate.Regexp(
             r'^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$',
@@ -27,6 +29,7 @@ class LocalitySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Locality
         load_instance = False
+        exclude = ("name", "province")
 
 locality_schema = LocalitySchema()
 localities_schema = LocalitySchema(many=True)
